@@ -1,5 +1,5 @@
-.. image:: logo/logo.png
-  :width: 400
+.. figure:: logo/logo.png
+  :width: 200
   :align: center
   :alt: PEAL logo
 
