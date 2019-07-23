@@ -1,9 +1,14 @@
+.. image:: logo/logo.png
+  :width: 400
+  :align: center
+  :alt: PEAL logo
+
 ====
-peal
+PEAL
 ====
 
 
-Add a short description here!
+Python Evolutionary Algorithm Library.
 
 
 Description
@@ -17,3 +22,9 @@ Note
 
 This project has been set up using PyScaffold 3.2.1. For details and usage
 information on PyScaffold see https://pyscaffold.org/.
+
+
+Acknowledgments
+===============
+
+PEAL logo made by Freepik from `www.flaticon.com <https://www.flaticon.com/>`_.
