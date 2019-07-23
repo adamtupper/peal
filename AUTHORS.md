@@ -1,3 +1,3 @@
 # Contributors
 
-- Adam Tupper <adam.tupper@outlook.com>
+- Adam Tupper (<adam.tupper@outlook.com>)
