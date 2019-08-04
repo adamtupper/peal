@@ -6,13 +6,17 @@ connection gene and node gene are defined in this module.
 Example:
 
 Attributes:
+    global_innov_num:
 
 Todo:
     
 Author: Adam Tupper
 Since: 31/07/19
-Updated: 31/07/19
+Updated: 04/08/19
 """
+
+
+global_innov_num = 0
 
 
 class ConnectionGene():
@@ -22,7 +26,7 @@ class ConnectionGene():
         ...
     """
 
-    def __init__(self, in_node, out_node, weight, expressed, innovation_number):
+    def __init__(self, in_node, out_node, weight, expressed, innov_num):
         """Creates a ConnectionGene object with the required properties.
 
         Args:
@@ -30,8 +34,13 @@ class ConnectionGene():
             out_node:
             weight:
             expressed:
-            innovation_number:
+            innov_num:
         """
+        self.in_node = in_node
+        self.out_node = out_node
+        self.weight = weight
+        self.expressed = expressed
+        self.innov_num = innov_num
 
 
 class NodeGene():
@@ -41,14 +50,13 @@ class NodeGene():
         ...
     """
 
-    def __init__(self, inputs, hidden_nodes, outputs):
+    def __init__(self, type):
         """Creates a NodeGene object with the required properties.
 
         Args:
-            inputs:
-            hidden_nodes:
-            outputs:
+            type:
         """
+        self.type = type
 
 
 class Genome():
@@ -58,10 +66,30 @@ class Genome():
         ...
     """
 
-    def __init__(self, input_nodes, output_nodes):
+    def __init__(self, num_inputs, num_outputs):
         """Creates a Genome objects with the required properties.
 
         Args:
-            input_nodes:
-            output_nodes:
+            num_inputs:
+            num_outputs:
         """
+        self.node_genes = []
+        self.connection_genes = []
+
+        # Create the required number of input and output nodes
+        for _ in range(0, num_inputs):
+            self.node_genes.append(NodeGene(type="input"))
+
+        for _ in range(0, num_outputs):
+            self.node_genes.append(NodeGene(type="output"))
+
+        # Add initial connections
+        for i in range(0, num_inputs):
+            for j in range(num_inputs, num_inputs + num_outputs):
+                new_connection_gene = ConnectionGene(in_node=self.node_genes[i],
+                                                     out_node=self.node_genes[j],
+                                                     weight=1.0,
+                                                     expressed=True,
+                                                     innov_num=global_innov_num)
+                self.connection_genes.append(new_connection_gene)
+                global_innov_num += 1
