@@ -1,7 +1,8 @@
 """This module defines the genome encoding used by NEAT.
 
-Genomes consist of a list connection genes, which themselves each consist of two node genes. Classes for a genome,
-connection gene and node gene are defined in this module.
+Genomes consist of a list connection genes, which themselves each consist of two
+node genes. Classes for a genome, connection gene and node gene are defined in
+this module.
 
 Example:
 
@@ -15,8 +16,19 @@ Since: 31/07/19
 Updated: 04/08/19
 """
 
+from enum import Enum
+import random
+from random import randrange
 
 global_innov_num = 0
+
+
+class NodeTypes(Enum):
+    """Define the types for nodes in the network.
+    """
+    INPUT = 0
+    HIDDEN = 1
+    OUTPUT = 2
 
 
 class ConnectionGene():
@@ -78,18 +90,64 @@ class Genome():
 
         # Create the required number of input and output nodes
         for _ in range(0, num_inputs):
-            self.node_genes.append(NodeGene(type="input"))
+            self.node_genes.append(NodeGene(type=NodeTypes.INPUT))
 
         for _ in range(0, num_outputs):
-            self.node_genes.append(NodeGene(type="output"))
+            self.node_genes.append(NodeGene(type=NodeTypes.OUTPUT))
 
         # Add initial connections
         for i in range(0, num_inputs):
             for j in range(num_inputs, num_inputs + num_outputs):
-                new_connection_gene = ConnectionGene(in_node=self.node_genes[i],
-                                                     out_node=self.node_genes[j],
-                                                     weight=1.0,
-                                                     expressed=True,
-                                                     innov_num=global_innov_num)
+                new_connection_gene = ConnectionGene(
+                    in_node=i,
+                    out_node=j,
+                    weight=1.0,
+                    expressed=True,
+                    innov_num=global_innov_num
+                )
                 self.connection_genes.append(new_connection_gene)
                 global_innov_num += 1
+
+    def add_connection(self):
+        """Performs an 'add connection' structural mutation.
+        
+        A single connection with a random weight is added between two previously
+        unconnected nodes.
+        """
+        max_retries = 5
+        num_retries = 0
+        connection_added = False
+
+        while num_retries < max_retries and not connection_added:
+            in_node_idx = randrange(0, len(self.node_genes))
+            out_node_idx = randrange(0, len(self.node_genes))
+
+            existing_connection = False
+            for connection_gene in self.connection_genes:
+                if (connection_gene.in_node == in_node_idx and 
+                    connection_gene.out_node == out_node_idx):
+                    existing_connection = True
+
+            if not existing_connection:
+                self.connection_genes.append(ConnectionGene(
+                    in_node=in_node_idx,
+                    out_node=out_node_idx,
+                    weight=random.uniform(0, 1),
+                    expressed=True,
+                    innov_num=global_innov_num
+                ))
+                global_innov_num += 1
+                connection_added = True
+
+            num_retries += 1
+
+    def add_node(self):
+        """Performs an 'add node' structural mutation.
+        
+        An existing connection is split and the new node is placed where the old
+        connection used to be. The old connection is disabled and two new
+        connection genes are added. The new connection leading into the new node
+        receives a weight of 1.0 and the connection leading out of the new node
+        receives the old connection weight.
+        """
+        raise NotImplementedError
