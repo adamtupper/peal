@@ -32,3 +32,36 @@ class ConnectionGene():
             expressed:
             innovation_number:
         """
+
+
+class NodeGene():
+    """Defines a node gene used in the genome encoding.
+
+    Attributes:
+        ...
+    """
+
+    def __init__(self, inputs, hidden_nodes, outputs):
+        """Creates a NodeGene object with the required properties.
+
+        Args:
+            inputs:
+            hidden_nodes:
+            outputs:
+        """
+
+
+class Genome():
+    """Defines a genome used to encode a neural network.
+
+    Attributes:
+        ...
+    """
+
+    def __init__(self, input_nodes, output_nodes):
+        """Creates a Genome objects with the required properties.
+
+        Args:
+            input_nodes:
+            output_nodes:
+        """
