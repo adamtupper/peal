@@ -85,6 +85,7 @@ class Genome():
             num_inputs:
             num_outputs:
         """
+        global global_innov_num
         self.node_genes = []
         self.connection_genes = []
 
@@ -114,6 +115,7 @@ class Genome():
         A single connection with a random weight is added between two previously
         unconnected nodes.
         """
+        global global_innov_num
         max_retries = 5
         num_retries = 0
         connection_added = False
