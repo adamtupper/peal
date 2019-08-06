@@ -126,8 +126,8 @@ class Genome():
 
             existing_connection = False
             for connection_gene in self.connection_genes:
-                if (connection_gene.in_node == in_node_idx and 
-                    connection_gene.out_node == out_node_idx):
+                if (connection_gene.in_node == in_node_idx and
+                        connection_gene.out_node == out_node_idx):
                     existing_connection = True
 
             if not existing_connection:
@@ -152,4 +152,22 @@ class Genome():
         receives a weight of 1.0 and the connection leading out of the new node
         receives the old connection weight.
         """
-        raise NotImplementedError
+        global global_innov_num
+        self.node_genes.append(NodeGene(type=NodeTypes.HIDDEN))
+        old_connection_gene_idx = randrange(0, len(self.node_genes))
+        old_connection_gene = self.connection_genes[old_connection_gene_idx]
+        self.connection_genes[old_connection_gene_idx].expressed = False
+        new_in_connection_gene = ConnectionGene(in_node=old_connection_gene.in_node,
+                                                out_node=len(self.node_genes) - 1,
+                                                weight=1.0,
+                                                expressed=True,
+                                                innov_num=global_innov_num)
+        global_innov_num += 1
+        new_out_connection_gene = ConnectionGene(in_node=len(self.node_genes) - 1,
+                                                 out_node=old_connection_gene.out_node,
+                                                 weight=old_connection_gene.weight,
+                                                 expressed=True,
+                                                 innov_num=global_innov_num)
+        global_innov_num += 1
+        self.connection_genes.append(new_in_connection_gene)
+        self.connection_genes.append(new_out_connection_gene)
