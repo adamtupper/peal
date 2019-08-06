@@ -31,7 +31,7 @@ class NodeTypes(Enum):
     OUTPUT = 2
 
 
-class ConnectionGene():
+class ConnectionGene:
     """Defines a connection gene used in the genome encoding.
 
     Attributes:
@@ -55,7 +55,7 @@ class ConnectionGene():
         self.innov_num = innov_num
 
 
-class NodeGene():
+class NodeGene:
     """Defines a node gene used in the genome encoding.
 
     Attributes:
@@ -71,7 +71,7 @@ class NodeGene():
         self.type = type
 
 
-class Genome():
+class Genome:
     """Defines a genome used to encode a neural network.
 
     Attributes:
